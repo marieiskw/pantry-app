@@ -1,0 +1,31 @@
+.main {
+  display: flex;
+}
+
+.ingredients {
+  width: 60%;
+  height: 100%;
+}
+
+.foodSection {
+  background-color: #f4e9d7;
+  margin: 10px;
+  padding: 10px;
+  /* position: relative; */
+  height: 20rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #d97d55;
+  border-radius: 10px;
+  aspect-ratio: 3 / 1;
+  margin: 3px;
+  text-align: center;
+  font-size: 20px;
+}
