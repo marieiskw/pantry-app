@@ -8,7 +8,7 @@
 }
 
 .foodSection {
-  background-color: #f4e9d7;
+  background-color: #f4efe8;
   margin: 10px;
   padding: 10px;
   /* position: relative; */
@@ -22,10 +22,21 @@
 
 .card {
   background-color: #fff;
-  border: 1px solid #d97d55;
+  border: 2px solid #b8c4a9;
   border-radius: 10px;
   aspect-ratio: 3 / 1;
   margin: 3px;
   text-align: center;
+  color: #fff;
   font-size: 20px;
+}
+
+.status-0 {
+  background: #9ab17a;
+}
+.status-1 {
+  background: #e3a06c;
+}
+.status-2 {
+  background: #bd6060;
 }
