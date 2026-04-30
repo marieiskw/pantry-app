@@ -1,3 +1,7 @@
+body {
+  color: #003049;
+}
+
 .main {
   display: flex;
 }
@@ -8,11 +12,16 @@
 }
 
 .foodSection {
-  background-color: #f4efe8;
+  background-color: #f8f4ed;
   margin: 10px;
   padding: 10px;
   /* position: relative; */
   height: 20rem;
+}
+
+.sectionTitle {
+  font-weight: bold;
+  padding-bottom: 10px;
 }
 
 .cards {
@@ -23,7 +32,7 @@
 .card {
   background-color: #fff;
   border: 2px solid #b8c4a9;
-  border-radius: 10px;
+  border-radius: 5px;
   aspect-ratio: 3 / 1;
   margin: 3px;
   text-align: center;

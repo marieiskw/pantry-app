@@ -82,7 +82,7 @@ function App() {
       name: "aubergine",
       category: "vegetable",
       quantity: 2,
-      expirationDate: "2026-04-28",
+      expirationDate: "2026-04-29",
       expirationStatus: 0,
     },
     {
@@ -98,12 +98,14 @@ function App() {
 
   const [allIngredients, setAllIngredients] =
     useState<Ingredient[]>(ingredientsList);
+  const [selectedItem, setSelectedItem] = useState<Ingredient | null>(null);
   const firstToEat = allIngredients.filter(
     (item) => getExpirationStatus(item.expirationDate) > 0,
   );
   const freshItems = allIngredients.filter(
     (item) => getExpirationStatus(item.expirationDate) == 0,
   );
+
   return (
     <div>
       <div>👩🏻‍🍳</div>
@@ -114,15 +116,18 @@ function App() {
       <div className="main">
         <div className="ingredients">
           <section className="foodSection">
-            <div>Eat Me First</div>
-            <Cards items={firstToEat} />
+            <div className="sectionTitle">Eat Me First</div>
+            <Cards items={firstToEat} onSelect={setSelectedItem} />
           </section>
           <section className="foodSection">
-            <div>Fresh items</div>
-            <Cards items={freshItems} />
+            <div className="sectionTitle">Fresh items</div>
+            <Cards items={freshItems} onSelect={setSelectedItem} />
           </section>
         </div>
-        <div>Graph</div>
+        <div>
+          <h3>Details</h3>
+          <Details selectedItem={selectedItem} />
+        </div>
       </div>
     </div>
   );
@@ -143,19 +148,50 @@ function getExpirationStatus(expirationDate: string): number {
   return 0;
 }
 
-function Cards({ items }: { items: Ingredient[] }) {
+function Cards({
+  items,
+  onSelect,
+}: {
+  items: Ingredient[];
+  onSelect: (item: Ingredient) => void;
+}) {
   return (
     <div className="cards">
       {items.map((item) => (
-        <Card key={item.id} item={item} />
+        <Card key={item.id} item={item} onSelect={onSelect} />
       ))}
     </div>
   );
 }
 
-function Card({ item }: { item: Ingredient }) {
+function Card({
+  item,
+  onSelect,
+}: {
+  item: Ingredient;
+  onSelect: (item: Ingredient) => void;
+}) {
   const status = getExpirationStatus(item.expirationDate);
-  return <div className={`card status-${status}`}>{item.name}</div>;
+  return (
+    <div className={`card status-${status}`} onClick={() => onSelect(item)}>
+      {item.name}
+    </div>
+  );
+}
+
+function Details({ selectedItem }: { selectedItem: Ingredient | null }) {
+  if (!selectedItem) {
+    return <div>Select an item</div>;
+  }
+
+  return (
+    <ul>
+      <li>Name: {selectedItem.name}</li>
+      <li>Category: {selectedItem.category}</li>
+      <li>Quantity: {selectedItem.quantity}</li>
+      <li>Expiration Date: {selectedItem.expirationDate}</li>
+    </ul>
+  );
 }
 
 export default App;
