@@ -49,3 +49,7 @@ body {
 .status-2 {
   background: #bd6060;
 }
+
+.card.selected {
+  border: 2px solid #4caf50;
+}
