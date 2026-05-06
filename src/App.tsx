@@ -105,6 +105,25 @@ function App() {
   const freshItems = allIngredients.filter(
     (item) => getExpirationStatus(item.expirationDate) == 0,
   );
+  console.log(allIngredients);
+
+  function handleUse(id: number) {
+    setAllIngredients((prev) =>
+      prev
+        .map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
+        )
+        .filter((item) => item.quantity > 0),
+    );
+    setSelectedItem((prev) => {
+      if (!prev) return null;
+      if (prev.id !== id) return prev;
+
+      if (prev.quantity - 1 <= 0) return null;
+
+      return { ...prev, quantity: prev.quantity - 1 };
+    });
+  }
 
   return (
     <div>
@@ -134,7 +153,7 @@ function App() {
         </div>
         <div>
           <h3>Details</h3>
-          <Details selectedItem={selectedItem} />
+          <Details selectedItem={selectedItem} onUse={handleUse} />
         </div>
       </div>
     </div>
@@ -206,7 +225,13 @@ function Card({
   );
 }
 
-function Details({ selectedItem }: { selectedItem: Ingredient | null }) {
+function Details({
+  selectedItem,
+  onUse,
+}: {
+  selectedItem: Ingredient | null;
+  onUse: (id: number) => void;
+}) {
   if (!selectedItem) {
     return <div>Select an item</div>;
   }
@@ -214,13 +239,16 @@ function Details({ selectedItem }: { selectedItem: Ingredient | null }) {
   const daysLeft = getRemainingDays(selectedItem.expirationDate);
 
   return (
-    <ul>
-      <li>Name: {selectedItem.name}</li>
-      <li>Category: {selectedItem.category}</li>
-      <li>Quantity: {selectedItem.quantity}</li>
-      <li>Expiration Date: {selectedItem.expirationDate}</li>
-      <li>{daysLeft < 0 ? "Expired" : `${daysLeft} days left`}</li>
-    </ul>
+    <div>
+      <ul>
+        <li>Name: {selectedItem.name}</li>
+        <li>Category: {selectedItem.category}</li>
+        <li>Quantity: {selectedItem.quantity}</li>
+        <li>Expiration Date: {selectedItem.expirationDate}</li>
+        <li>{daysLeft < 0 ? "Expired" : `${daysLeft} days left`}</li>
+      </ul>
+      <button onClick={() => onUse(selectedItem.id)}>Use</button>
+    </div>
   );
 }
 
